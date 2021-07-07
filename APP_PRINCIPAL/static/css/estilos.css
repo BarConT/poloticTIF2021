@@ -1,0 +1,118 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+h2 {
+	font-family: 'Akaya Kanadaka', cursive;
+}
+
+#titulo {
+	font-family: 'Rock Salt', cursive;
+}
+
+.detalle {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+p {
+	font-family: 'Merienda', cursive;
+}
+
+body {
+	background-color: lightblue;
+	background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSINSPx7xQ7vlQMbqUIRL9phcjY9re3D-oV2A&usqp=CAU");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* Encabezado */
+header {
+	width: 100%;
+	height: auto;
+	background-color: lightblue;
+	display: flex;
+}
+
+header > div {
+	width: 50%;
+}
+
+.logo {
+	width: 60px;
+	margin: 10px; 
+}
+
+.contenedor-logo {
+	display: flex;
+	align-items: center;
+}
+
+nav {
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+nav > ul {
+	margin-right: 30px
+}
+
+nav > ul > li {
+	display: inline;
+	margin-left: 5px;
+}
+
+/* Cuerpo */
+#contenido {
+	min-height: calc(100vh - 290px);
+}
+
+
+/* Pie de página */
+footer {
+	height: 150px;
+	color: white;
+	background-color: lightblue;
+}
+
+footer > .empresa {
+	width: 100%;
+	height: 100px;
+	background-color: #17a2b8;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+footer > .autor {
+	color: black;
+	text-align: center;	
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 520px) {
+
+	header {
+		flex-direction: column;
+	}
+
+	header > div {
+		width: 100%;
+	}
+
+	header .contenedor-logo {
+		justify-content: center;
+	}
+
+	nav {
+		justify-content: center;
+	}
+	
+
+}
+

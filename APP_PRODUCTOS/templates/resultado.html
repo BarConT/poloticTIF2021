@@ -1,0 +1,38 @@
+{% extends 'layout.html'%}
+
+{% block titulo %}Búsqueda: {{ request.GET.buscar }}{% endblock %}
+{% block cuerpo %}
+
+{% load humanize %}
+
+<br>
+
+<div class="container">
+	<h2>Resultado de la búsqueda: {{ request.GET.buscar }}</h2>
+
+	{% if productos %}
+	<div class="list-group">
+		{% for producto in productos %}
+		<a href="{% url 'visualizar' producto.id %}" class="list-group-item list-group-item-action ">
+			<div class="d-flex w-100 justify-content-between">
+				<div>
+					<h5 class="mb-1">{{ producto.titulo }}</h5>
+					<p class="mb-1">{{ producto.descripcion }}</p>
+					<small>${{ producto.precio | intcomma }}</small>
+				</div>
+				<img src="{{ producto.imagen.url }}" alt="" style="width:100px; height:100px;">
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+
+	{% else %}
+
+	<h2>No hay coincidencia, intentalo nuevamente.</h2>
+	{% endif %}
+</div>
+
+<br>
+
+{% endblock %}
+

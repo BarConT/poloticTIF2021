@@ -1,0 +1,38 @@
+{% extends 'layout.html'%}
+
+{% block titulo %}Categoría: {{ categoria }}{% endblock %}
+{% block cuerpo %}
+
+{% load humanize %}
+
+<br>
+
+<div class="container">
+	<h2>Categoria: {{ categoria }}</h2>
+	{% if entity  %}
+	<div class="list-group">
+		{% for producto in entity %}
+		<a href="{% url 'visualizar' producto.id %}" class="list-group-item list-group-item-action ">
+			<div class="d-flex w-100 justify-content-between">
+				<div>
+					<h5 class="mb-1">{{ producto.titulo }}</h5>
+					<p class="mb-1">{{ producto.descripcion }}</p>
+					<small>${{ producto.precio | intcomma }}</small>
+				</div>
+				<img src="{{ producto.imagen.url }}" alt="" style="width:100px; height:100px;">
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+	{% else %}
+	<h2>Esta categoría está vacia</h2>
+	{% endif %}
+</div>
+
+<br>
+
+<div class="paginator">
+	{% include 'paginator.html' %}
+</div>
+
+{% endblock %}

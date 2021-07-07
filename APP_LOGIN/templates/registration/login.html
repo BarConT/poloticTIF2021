@@ -1,0 +1,37 @@
+{% extends 'layout.html'%}
+
+{% block titulo %}Login{% endblock %}
+
+{% block cuerpo %}
+{% load crispy_forms_tags %}
+
+<br>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 offset-lg-2">
+			<div class="card">
+				<div class="card-body">
+					<h2>ACCEDER A LA WEB</h2>
+					<hr>
+					{% if form.errors %}
+					<p>Tu nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
+					{% endif %}
+
+					<form action="" method="POST">
+						{% csrf_token %}
+						{{ form | crispy }}
+						<hr>
+						<input type="submit" value="LOGIN" class="btn btn-info">
+						<input type="hidden" name="next" value="{{ next }}" />
+						<a href="{% url 'registro' %}" class="btn btn-info">REGISTRARSE</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<br>
+
+{% endblock %}

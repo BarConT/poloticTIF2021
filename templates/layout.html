@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{% block titulo%}{% endblock %}</title>
+
+		<!-- GOOGLE FONTS -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Indie+Flower&family=Merienda&family=Rock+Salt&display=swap" rel="stylesheet">
+
+		<!-- BOOTSTRAP 4 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+		{% load static %}
+
+		<!-- FAVICON -->
+		<link rel="icon" type="image/png" href="{% static 'img/favicon-32x32.png'%}" sizes="32x32" />
+		<link rel="icon" type="image/png" href="{% static 'img/favicon-16x16.png'%}" sizes="16x16" />
+
+		<link rel="stylesheet" href="{% static 'css/estilos.css'%}">
+	</head>
+	<body>
+
+		<!-- Encabezado -->
+		<header>
+			<div class="contenedor-logo">
+				<a href="{% url 'principal' %}">
+					<img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
+				</a>
+				<h2 id="titulo">Jaguarete Kaa</h2>
+			</div>
+			<div class="botones-login">
+				<nav>
+					<ul>
+						{% if user.is_authenticated %}
+						<li>@{{ user.username }}</li>
+						<li><a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-info btn-sm">DESCONECTAR</a></li>
+						{% else %}
+						<li><a href="{% url 'login'%}?next={{request.path}}" class="btn btn-info btn-sm">LOGIN</a></li>
+						<li><a href="{% url 'registro' %}" class="btn btn-info btn-sm">REGISTRO</a></li>
+						{% endif %}
+						{% if perms.APP_PRODUCTOS.change_producto %}
+						{% else %}
+						<li><a href="{% url 'carrito' %}" class="btn btn-info btn-sm">CARRITO</a></li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+
+		<!-- Menú -->
+		<div id="menu">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item {% if request.path == '/' %}active{% endif %}">
+							<a class="nav-link" href="{% url 'principal' %}">HOME</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								CATEGORIAS
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{% url 'categoria' 1 %}">Categoría 1</a>
+								<a class="dropdown-item" href="{% url 'categoria' 2 %}">Categoría 2</a>
+								<a class="dropdown-item" href="{% url 'categoria' 3 %}">Categoría 3</a>
+								<a class="dropdown-item" href="{% url 'categoria' 4 %}">Categoría 4</a>
+								<a class="dropdown-item" href="{% url 'categoria' 5 %}">Categoría 5</a>
+							</div>
+						</li>
+						<li class="nav-item {% if request.path == '/acerca/' %}active{% endif %}">
+							<a class="nav-link" href="{% url 'acerca_de' %}">ACERCA DE...</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="mailto:jaguarete@gmail.com">CONTACTO</a>
+						</li>
+						{% if perms.APP_PRODUCTOS.add_producto %}
+						<li class="nav-item {% if request.path == '/agregar/' %}active{% endif %}">
+							<a class="nav-link" href="{% url 'agregar' %}">NUEVO PRODUCTO</a>
+						</li>
+						{% endif %}
+					</ul>
+					<form method="GET" action="{% url 'buscar' %}" class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="buscar">
+						<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+					</form>
+				</div>
+			</nav>
+		</div>
+
+		<!-- Cuerpo -->
+		<div id="contenido">
+			{% block cuerpo %} {% endblock %}
+		</div>
+
+		<!-- Pie de página -->
+		<footer>
+			<div class="empresa">
+				<h2>Jaguarete Kaa S.A.</h2>
+				<p>Copyright © 2021 Todos los derechos reservados</p>
+			</div>
+			<div class="autor">
+				<p>Hecho con amor por Diego Jesús Barale Conte</p>
+			</div>
+		</footer>
+
+		<!-- SWEET ALERT -->
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		{% if messages %}
+		{% for message in messages %}
+		<script>
+			Swal.fire({
+				"title": "Felicitaciones",
+				"text": "{{ message }}",
+				"icon": "success"
+			})	
+		</script>
+		{% endfor %}
+		{% endif %}
+
+	</body>
+</html>

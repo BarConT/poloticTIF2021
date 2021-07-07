@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}
+{% for p in producto %}
+{{ p.titulo }}
+{% endfor %}
+{% endblock %}
+
+{% block cuerpo %}
+
+<!-- SWEET ALERT -->
+<script>
+	function eliminarProducto(id) {
+		Swal.fire({
+			"title": "¿Estás seguro?",
+			"text": "Esta acción no se puede deshacer",
+			"icon": "question",
+			"showCancelButton": true,
+			"cancelButtonText": "No, cancelar",
+			"confirmButtonText": "Si, eliminar",
+			"reverseButtons": true,
+			"confirmButtonColor": "#dc3545",
+			"cancelButtonColor": "#17a2b8"
+		})
+			.then(function(result){
+				if (result.isConfirmed){
+					window.location.href = '/borrar/'+id+'/'
+				}
+			})
+	}
+</script>
+
+{% load humanize %}
+
+<br>
+
+<div class="row">
+	<div class="col-12 col-md-6	offset-md-3">
+		<div class="card">
+			<div class="card-body">
+
+				{% for p in producto %}
+
+				<h2>{{ p.titulo }}</h2>
+				<div class="d-flex flex-column flex-lg-row detalle">
+					<div>
+						<img src="{{ p.imagen.url }}" alt="{{ p.titulo}}" style="height:200px; width:200px; margin-right:10px;">
+					</div>
+						<div >
+							{{ p.categoria }}
+							<h3>{{ p.descripcion }}</h3>
+							<div>
+								<h4>Precio: ${{ p.precio | intcomma }}</h4>
+								{% if perms.APP_PRODUCTOS.change_producto %}
+								{% else %}
+								<a href="{% url 'agregar_producto' p.id %}" class="btn btn-info btn-sm">AGREGAR AL  CARRITO</a>
+								{% endif %}
+								{% if perms.APP_PRODUCTOS.change_producto %}
+								<a href="{% url 'editar' p.id %}" class="btn btn-info btn-sm">EDITAR</a>
+								{% endif %}
+								{% if perms.APP_PRODUCTOS.delete_producto %}
+								<a href="#" onclick="eliminarProducto({{ p.id }})" class="btn btn-danger btn-sm">BORRAR</a>
+								{% endif %}
+							</div>
+						</div>
+
+				</div>
+
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<br>
+
+{% endblock %}
+
